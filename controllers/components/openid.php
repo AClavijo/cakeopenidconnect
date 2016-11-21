@@ -60,9 +60,11 @@ class OpenidComponent extends Component
             } else {
                 $this->Session->setFlash('Authentification Google failed. ID Token not verified', 'flash_bad');
             }
+
             return '/';
         }
         $client->setState($this->_getState());
+        
         return $client->createAuthUrl();
     }
 
