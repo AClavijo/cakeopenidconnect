@@ -2,3 +2,4 @@ OpenidConnect:
     client_id: 692158080346-a4g4jns2k966dls4klcti7i8739jp4bt.apps.googleusercontent.com
     secret_id: IO0TPAp13MtqNpW0bEIndjKW
     domains: ['isartdigital.com', 'student.isartdigital.com']
+    scopes: ['openid', 'email', 'profile']

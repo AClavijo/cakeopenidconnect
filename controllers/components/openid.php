@@ -3,9 +3,7 @@ use Symfony\Component\Yaml\Yaml;
 class OpenidComponent extends Component
 {
     var $components = array('Auth', 'Session');
-    var $domains;
-    var $client_id;
-    var $client_secret;
+    var $domains, $client_id, $client_secret, $scopes;
 
     /**
      * {@inheritdoc}
@@ -25,9 +23,11 @@ class OpenidComponent extends Component
     {
         //load config file parameters
         $values = Yaml::parse(file_get_contents(APP.'plugins/openid/config/parameters.yml'));
-        $this->client_id = $values['OpenidConnect']['client_id'];
-        $this->client_secret = $values['OpenidConnect']['secret_id'];;
-        $this->domains = $values['OpenidConnect']['domains'];;  
+        $values = $values['OpenidConnect'];
+        $this->client_id = $values['client_id'];
+        $this->client_secret = $values['secret_id'];;
+        $this->domains = $values['domains'];
+        $this->scopes = $values['scopes']
     }
 
     /**
@@ -76,7 +76,7 @@ class OpenidComponent extends Component
         $client->setClientId($this->client_id);
         $client->setClientSecret($this->secret_id);
         $client->setRedirectUri($redirect_uri);
-        $client->setScopes(array('openid', 'email', 'profile'));
+        $client->setScopes($this->scopes);
 
         return $client;
     }
