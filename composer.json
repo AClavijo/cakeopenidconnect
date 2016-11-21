@@ -4,6 +4,7 @@
     "description": "Provide Google OpenId Connect feature",
     "require": {
         "google/apiclient": "^2.0",
-        "symfony/yaml" :    "3.1.*"
+        "symfony/yaml" :    "3.1.*",
+        "composer/installers": "~1.0"
     }
 }

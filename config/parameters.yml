@@ -3,3 +3,4 @@ OpenidConnect:
     secret_id: IO0TPAp13MtqNpW0bEIndjKW
     domains: ['isartdigital.com', 'student.isartdigital.com']
     scopes: ['openid', 'email', 'profile']
+    log_path: ""
