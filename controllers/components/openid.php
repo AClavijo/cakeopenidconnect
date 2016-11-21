@@ -1,8 +1,11 @@
 <?php
-
+use Symfony\Component\Yaml\Yaml;
 class OpenidComponent extends Component
 {
     var $components = array('Auth', 'Session');
+    var $domains;
+    var $client_id;
+    var $client_secret;
 
     /**
      * {@inheritdoc}
@@ -10,7 +13,21 @@ class OpenidComponent extends Component
     function initialize(&$controller) {
         // sauvegarde la référence du contrôleur pour une utilisation ultérieure
         $this->controller =& $controller;
-        $this->Auth->allowedActions = array('*');     
+        $this->Auth->allowedActions = array('*');  
+        $this->_getParameters();
+    }
+
+    /**
+     * Configure varaibles from config/parameters.yml
+     * @Return void
+     */
+    function _getParameters()
+    {
+        //load config file parameters
+        $values = Yaml::parse(file_get_contents(APP.'plugins/openid/config/parameters.yml'));
+        $this->client_id = $values['OpenidConnect']['client_id'];
+        $this->client_secret = $values['OpenidConnect']['secret_id'];;
+        $this->domains = $values['OpenidConnect']['domains'];;  
     }
 
     /**
@@ -56,8 +73,8 @@ class OpenidComponent extends Component
     {
         $redirect_uri = 'http://'.$_SERVER['HTTP_HOST'].'/openid/authentification';
         $client       = new Google_Client();
-        $client->setClientId('692158080346-a4g4jns2k966dls4klcti7i8739jp4bt.apps.googleusercontent.com');
-        $client->setClientSecret('IO0TPAp13MtqNpW0bEIndjKW');
+        $client->setClientId($this->client_id);
+        $client->setClientSecret($this->secret_id);
         $client->setRedirectUri($redirect_uri);
         $client->setScopes(array('openid', 'email', 'profile'));
 
@@ -86,7 +103,7 @@ class OpenidComponent extends Component
     function _logUser($playload)
     {
         $emailOpenIdUser = $playload['email'];
-        if (!$pseudo = $this->_checkIsartDomain($emailOpenIdUser)) {
+        if (!$pseudo = $this->_checkDomain($emailOpenIdUser)) {
 
             return false;
         }
@@ -102,14 +119,13 @@ class OpenidComponent extends Component
      * @Param string $email    Email address return by the JWT
      * @Return boolean|string  False, if no isart domain found, user pseudo if yes
      */
-    function _checkIsartDomain($email)
+    function _checkDomain($email)
     {
         $emailExplosed = explode('@', $email);
-        $isartDomains  = array('isartdigital.com', 'student.isartdigital.com');
-        $length        = count($isartDomains);
+        $length        = count($this->domains);
         $i             = 0;
         for ($i; $i <= $length; $i++) {
-            if ($isartDomains[$i] == $emailExplosed[1]) {
+            if ($this->domains[$i] == $emailExplosed[1]) {
 
                 return $emailExplosed[0];
             }
