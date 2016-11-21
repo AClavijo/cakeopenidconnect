@@ -27,7 +27,7 @@ class OpenidComponent extends Component
         $this->client_id = $values['client_id'];
         $this->client_secret = $values['secret_id'];;
         $this->domains = $values['domains'];
-        $this->scopes = $values['scopes']
+        $this->scopes = $values['scopes'];
     }
 
     /**
@@ -64,7 +64,7 @@ class OpenidComponent extends Component
             return '/';
         }
         $client->setState($this->_getState());
-        
+
         return $client->createAuthUrl();
     }
 
