@@ -1,5 +1,5 @@
 {
-    "name": "cakephp/openid",
+    "name": "isart/cakeopenidconnect",
     "type": "Cake 1.3 plugin",
     "description": "Provide Google OpenId Connect feature",
     "require": {
