@@ -11,7 +11,7 @@ class CakeInstaller extends LibraryInstaller
      */
     public function getInstallPath(PackageInterface $package)
     {
-        return 'app/plugins/toto/openid'.substr($package->getPrettyName(), 23);
+        return 'app/plugins/openid';
     }
 
     /**
@@ -19,6 +19,8 @@ class CakeInstaller extends LibraryInstaller
      */
     public function supports($packageType)
     {
+        var_dump($packageType);
+        die;
         return 'cakephp-plugin' === $packageType;
     }
 }
