@@ -1,7 +1,14 @@
 {
     "name": "isart/cakeopenidconnect",
-    "type": "Cake 1.3 plugin",
-    "description": "Provide Google OpenId Connect feature",
+    "type": "cake-1.3-plugin",
+    "description": "Provide Google OpenId Connect feature for cake php 1.3",
+    "authors": [
+        {
+            "name": "Antoine Clavijo",
+            "email": "antoine.clavijo@gmail.com",
+            "role": "Developer"
+        }
+    ],
     "require": {
         "google/apiclient": "^2.0",
         "symfony/yaml" :    "3.1.*",
