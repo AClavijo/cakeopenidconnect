@@ -1,0 +1,6 @@
+OpenidConnect:
+    client_id: %
+    secret_id: %
+    domains: []
+    scopes: ['openid', 'email', 'profile']
+    log_path: ""
