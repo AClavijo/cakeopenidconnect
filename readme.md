@@ -52,3 +52,4 @@ when you succefully install you'r page, put a connect link in login.ctp page lik
 ## To Do
 
 - Implement the log path
+- put domains optionnal parameter to accept all domains, because by default it accept none. But this plugin is dev for accept just selective email address domains
