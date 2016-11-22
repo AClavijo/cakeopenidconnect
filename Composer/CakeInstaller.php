@@ -12,7 +12,6 @@ class CakeInstaller extends LibraryInstaller
     public function getInstallPath(PackageInterface $package)
     {
         return 'app/plugins/toto/openid'.substr($package->getPrettyName(), 23);
-        fsdfsdfsd;
     }
 
     /**
