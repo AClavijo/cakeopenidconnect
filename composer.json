@@ -2,6 +2,12 @@
     "name": "cakephp/openid",
     "type": "Cake 1.3 plugin",
     "description": "Provide Google OpenId Connect feature",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:aclavijo/openid"
+        }
+    ],
     "require": {
         "google/apiclient": "^2.0",
         "symfony/yaml" :    "3.1.*",
