@@ -1,8 +1,8 @@
 # Plugin Google OpenId Connect for Cake 1.3 applications
 
-This plugin provide Google OpenId Connect to a cake 1.3 Framkework.
+This plugin provide Google OpenId Connect to a cake 1.3 Framework.
 
-> I try do make the installation easy. So please read the installation part :)
+> I try to make the installation easy. So please read the installation part :)
 
 ## Dependancies
 
