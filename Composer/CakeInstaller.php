@@ -19,8 +19,6 @@ class CakeInstaller extends LibraryInstaller
      */
     public function supports($packageType)
     {
-        var_dump($packageType);
-        die;
         return 'cakephp-plugin' === $packageType;
     }
 }
