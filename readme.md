@@ -53,11 +53,13 @@ OpenidConnect:
 
 when you succefully install you'r page, put a connect link in login.ctp page like this:
 ```php
-<a href="<?php echo $html->link('authentification', array(
-                    'plugin' => 'openid', 
-                    'controller' => 'oauth',
-                    'action' => 'authentification' 
-)); ?>">Google connect</a>
+ echo $html->link('Name your button', array(
+        'plugin' => 'openid', 
+        'controller' => 'oauth',
+        'action' => 'authentification' 
+    ), array(
+        'class' => 'btn btn-primary'
+    )); ?>
 ```
 ## To do
 

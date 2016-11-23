@@ -93,7 +93,7 @@ class OpenidComponent extends Component
         $redirect_uri = 'http://'.$_SERVER['HTTP_HOST'].'/openid/authentification';
         $client       = new Google_Client();
         $client->setClientId($this->client_id);
-        $client->setClientSecret($this->secret_id);
+        $client->setClientSecret($this->client_secret);
         $client->setRedirectUri($redirect_uri);
         $client->setScopes($this->scopes);
 
