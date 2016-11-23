@@ -3,7 +3,7 @@ use Symfony\Component\Yaml\Yaml;
 class OpenidComponent extends Component
 {
     var $components = array('Auth', 'Session');
-    var $domains, $client_id, $client_secret, $scopes;
+    var $client_id, $client_secret, $scopes, $cakeLog = true, $domains = null, $isWorkDomain = false, $logPath = null, $flashCtp = 'flash_bad';
 
     /**
      * {@inheritdoc}
@@ -25,9 +25,23 @@ class OpenidComponent extends Component
         $values = Yaml::parse(file_get_contents(APP.'plugins/openid/config/parameters.yml'));
         $values = $values['OpenidConnect'];
         $this->client_id = $values['client_id'];
-        $this->client_secret = $values['secret_id'];;
-        $this->domains = $values['domains'];
+        $this->client_secret = $values['secret_id'];
         $this->scopes = $values['scopes'];
+        if (isset($values['domains'])) {
+            $this->domains = $values['domains'];
+        }
+        if (isset($values['is_work_domain'])) {
+            $this->isWorkDomain = $values['is_work_domain'];
+        }
+        if (isset($values['log_path'])) {
+            $this->logPath = $values['log_path'];
+        }
+        if (isset($values['cake_log'])) {
+            $this->cakeLog = $values['cake_log'];
+        }
+        if (isset($values['flash_ctp'])) {
+            $this->flashCtp = $values['flash_ctp'];
+        }
     }
 
     /**
@@ -52,13 +66,16 @@ class OpenidComponent extends Component
                     //remove state from user session
                     $this->Session->delete('state');
                     if (!$this->_logUser($playload)) {
-                        $this->Session->setFlash('You only can loggin with you\'r Isart email account', 'flash_bad');
+                        $this->Session->setFlash('You only can loggin with you\'r Isart email account', $this->flashCtp);
+                        $this->_logAction('Unauthorize domain user try to loggin. payload: '.serialize($playload));
                     }
                 } else {
-                    $this->Session->setFlash('Authentification Google failed. CSRF Token invalid', 'flash_bad');
+                    $this->Session->setFlash('Authentification Google failed. CSRF Token invalid', $this->flashCtp);
+                    $this->_logAction('Authentification Google failed. CSRF Token invalid. payload: '.serialize($playload));
                 }
             } else {
-                $this->Session->setFlash('Authentification Google failed. ID Token not verified', 'flash_bad');
+                $this->Session->setFlash('Authentification Google failed. ID Token not verified', $this->flashCtp);
+                $this->_logAction('Authentification Google failed. ID Token not verified. payload: '.serialize($playload));
             }
 
             return '/';
@@ -98,7 +115,9 @@ class OpenidComponent extends Component
     }
 
     /**
-     * Log User Only if domain of email address contain isartdigital.com or student.isartdigital.com
+     * Log User Only if pseudo == (first part of email address)
+     * Need to be updated for your own implementation
+     * 
      * @Param array $payload     Payload return in the JWT by Google OpenId connect
      * @Return boolean           True, if user is log, False, if user don't have an isart address
      */
@@ -124,8 +143,14 @@ class OpenidComponent extends Component
     function _checkDomain($email)
     {
         $emailExplosed = explode('@', $email);
-        $length        = count($this->domains);
-        $i             = 0;
+        if ($isWorkDomain) {
+            return $emailExplosed[0];
+        }
+        if(empty($domains)){
+            return $emailExplosed[0];
+        }
+        $length = count($this->domains);
+        $i      = 0;
         for ($i; $i <= $length; $i++) {
             if ($this->domains[$i] == $emailExplosed[1]) {
 
@@ -134,5 +159,16 @@ class OpenidComponent extends Component
         }
 
         return false;
+    }
+
+    function _logAction($log)
+    {
+        if ($this->cakeLog) {
+            //log the $log string in cake
+            $this->log($log);
+        }
+        if ($this->logPath) {
+            //log into file set in $logPath
+        }
     }
 }

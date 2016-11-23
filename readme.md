@@ -28,16 +28,27 @@ you need to create a parameter.yml in app/plugins/openid/config from the paramet
 ## Configuration
 
 ```
-#parameter.yml
+#parameters.yml
 OpenidConnect:
-    client_id: #client_id provide by google
-    secret_id: #client_id provide by google
-    domains: [] #list here the domains you want to accept
-    scopes: ['openid', 'email', 'profile'] #google openid scope minimum ['openid', 'email']
+    client_id: string
+    secret_id: string
+    scopes: array
     #optionnal
-    log_path: "" #put here the log file 
+    domains: null|array #default null
+    log_path: null|array #default null
+    cake_log: false|true #default true
+    is_work_domain: false|true #default false
+    flash_ctp: string #default flash_bas
 ```
 
+- **client_id**: client_id provide by google
+- **secret_id**: client_id provide by google
+- **scopes**: google openid scope ['openid', 'email', 'profile'] minimum ['openid', 'email']
+- **domains**: array if you want to only authorize authentification by email address domains (all other will be rejected)
+- **log_path**: specifie another log file path (Apache for example)
+- **cake_log**: false to desactivate cake logging
+- **is_work_domain**: if you activate the work domain openid google, the code don't check domains
+- **flash_ctp**: name of the cake 1.3 flash template to display error loggin message
 ## Deploy it on your project
 
 when you succefully install you'r page, put a connect link in login.ctp page like this:
@@ -48,8 +59,6 @@ when you succefully install you'r page, put a connect link in login.ctp page lik
                     'action' => 'authentification' 
 )); ?>">Google connect</a>
 ```
+## To do
 
-## To Do
-
-- Implement the log path
-- put domains optionnal parameter to accept all domains, because by default it accept none. But this plugin is dev for accept just selective email address domains
+- Implement the log_path feature
