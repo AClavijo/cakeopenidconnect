@@ -90,7 +90,8 @@ class OpenidComponent extends Component
      */
     function _getGoogleClient()
     {
-        $redirect_uri = 'http://'.$_SERVER['HTTP_HOST'].'/openid/authentification';
+
+        $redirect_uri = $this->_get_http_protocol().$_SERVER['HTTP_HOST'].'/openid/authentification';
         $client       = new Google_Client();
         $client->setClientId($this->client_id);
         $client->setClientSecret($this->client_secret);
@@ -171,4 +172,14 @@ class OpenidComponent extends Component
             //log into file set in $logPath
         }
     }
+    
+    function _get_http_protocol()
+    { 
+        if ( !empty($_SERVER['HTTPS']) && $_SERVER['SERVER_PORT'] == 443) {
+            return "https://"; 
+        } else {
+            return 'http://';
+        }
+            
+    } 
 }
