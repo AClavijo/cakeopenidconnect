@@ -1,6 +1,6 @@
 <?php
 
-class OpenidController extends OpenidAppController
+class OauthController extends OpenidAppController
 {
     var $helpers = array("Html", "Form");
     var $components = array('Auth', 'Session', 'Openid');

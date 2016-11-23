@@ -55,7 +55,7 @@ when you succefully install you'r page, put a connect link in login.ctp page lik
 ```php
 <a href="<?php echo $html->link('authentification', array(
                     'plugin' => 'openid', 
-                    'controller' => 'openid',
+                    'controller' => 'oauth',
                     'action' => 'authentification' 
 )); ?>">Google connect</a>
 ```
