@@ -91,7 +91,7 @@ class OpenidComponent extends Component
     function _getGoogleClient()
     {
 
-        $redirect_uri = $this->_get_http_protocol().$_SERVER['HTTP_HOST'].'/openid/authentification';
+        $redirect_uri = $this->_get_http_protocol().$_SERVER['HTTP_HOST'].'/openid/oauth/authentification';
         $client       = new Google_Client();
         $client->setClientId($this->client_id);
         $client->setClientSecret($this->client_secret);
