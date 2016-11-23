@@ -15,6 +15,11 @@ class OpenidComponent extends Component
         $this->_getParameters();
     }
 
+    function beforeRedirect()
+    {
+        
+    }
+
     /**
      * Configure varaibles from config/parameters.yml
      * @Return void
@@ -78,11 +83,11 @@ class OpenidComponent extends Component
                 $this->_logAction('Authentification Google failed. ID Token not verified. payload: '.serialize($playload));
             }
 
-            return '/';
+            $this->controller->redirect('/');
         }
         $client->setState($this->_getState());
 
-        return $client->createAuthUrl();
+        $this->controller->redirect($client->createAuthUrl());
     }
 
     /**

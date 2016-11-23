@@ -13,6 +13,6 @@ class OauthController extends OpenidAppController
 
     function authentification()
     {
-        header('Location: '.$this->Openid->authentification());
+        $this->Openid->authentification();
     }
 }
