@@ -37,7 +37,6 @@ OpenidConnect:
     domains: null|array #default null
     log_path: null|array #default null
     cake_log: false|true #default true
-    is_work_domain: false|true #default false
     flash_ctp: string #default flash_bas
 ```
 
@@ -47,7 +46,6 @@ OpenidConnect:
 - **domains**: array if you want to only authorize authentification by email address domains (all other will be rejected)
 - **log_path**: specifie another log file path (Apache for example)
 - **cake_log**: false to desactivate cake logging
-- **is_work_domain**: if you activate the work domain openid google, the code don't check domains
 - **flash_ctp**: name of the cake 1.3 flash template to display error loggin message
 ## Deploy it on your project
 

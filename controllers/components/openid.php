@@ -3,7 +3,7 @@ use Symfony\Component\Yaml\Yaml;
 class OpenidComponent extends Component
 {
     var $components = array('Auth', 'Session');
-    var $client_id, $client_secret, $scopes, $cakeLog = true, $domains = null, $isWorkDomain = false, $logPath = null, $flashCtp = 'flash_bad';
+    var $client_id, $client_secret, $scopes, $cakeLog = true, $domains = null, $logPath = null, $flashCtp = 'flash_bad';
 
     /**
      * {@inheritdoc}
@@ -13,6 +13,11 @@ class OpenidComponent extends Component
         $this->controller =& $controller;
         $this->Auth->allowedActions = array('*');  
         $this->_getParameters();
+    }
+
+    function startup(&$controller) {
+        // sauvegarde la référence du contrôleur pour une utilisation ultérieure
+        $this->controller =& $controller;
     }
 
     function beforeRedirect()
@@ -71,7 +76,7 @@ class OpenidComponent extends Component
                     //remove state from user session
                     $this->Session->delete('state');
                     if (!$this->_logUser($playload)) {
-                        $this->Session->setFlash('You only can loggin with you\'r Isart email account', $this->flashCtp);
+                        $this->controller->Session->setFlash('You only can loggin with you\'r Isart email account', $this->flashCtp);
                         $this->_logAction('Unauthorize domain user try to loggin. payload: '.serialize($playload));
                     }
                 } else {
@@ -149,10 +154,7 @@ class OpenidComponent extends Component
     function _checkDomain($email)
     {
         $emailExplosed = explode('@', $email);
-        if ($isWorkDomain) {
-            return $emailExplosed[0];
-        }
-        if(empty($domains)){
+        if(empty($this->domains)){
             return $emailExplosed[0];
         }
         $length = count($this->domains);
