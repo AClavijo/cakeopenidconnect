@@ -140,8 +140,13 @@ class OpenidComponent extends Component
             return false;
         }
         $user = $this->controller->Utilisateur->getUserByPseudo($pseudo);
-        $this->Session->write('Auth.Utilisateur', $user);
-        $this->Auth->_loggedIn = true;
+        if($user) {
+            $this->Session->write('Auth.Utilisateur', $user);
+            $this->Auth->_loggedIn = true;
+        } else {
+            $this->controller->Session->setFlash('Le compte pour l\'utilisateur '.$pseudo.'  introuvable', $this->flashCtp);
+            $this->_logAction('Le compte pour l\'utilisateur '.$pseudo.'  introuvable. payload: '.serialize($playload));
+        }
 
         return true;
     }
