@@ -49,7 +49,34 @@ OpenidConnect:
 - **flash_ctp**: name of the cake 1.3 flash template to display error loggin message
 ## Deploy it on your project
 
-when you succefully install you'r page, put a connect link in login.ctp page like this:
+### User search fonction
+
+- In the model Uilisateur, add the following function
+
+```php
+    function getUserByPseudo($pseudo)
+    {
+        $params = array(
+            'conditions' => array('Utilisateur.pseudo' => $pseudo)
+        );
+        $result = $this->find('first', $params);
+        
+        return $result['Utilisateur'];
+    }
+```
+
+### (optionnal) add the route to the router
+
+- in the file *app/config/router.php*
+
+```php
+Router::connect('/openid/oauth/authentification', array('plugin' => 'openid', 'controller' => 'oauth', 'action' => 'authentification'));
+```
+
+### Add a connection link
+
+- In *login.ctp*:
+
 ```php
  echo $html->link('Name your button', array(
         'plugin' => 'openid', 
@@ -59,6 +86,7 @@ when you succefully install you'r page, put a connect link in login.ctp page lik
         'class' => 'btn btn-primary'
     )); ?>
 ```
+
 ## To do
 
 - Implement the log_path feature
