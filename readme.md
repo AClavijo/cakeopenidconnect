@@ -51,7 +51,7 @@ OpenidConnect:
 
 ### User search fonction
 
-- In the model Uilisateur, add the following function
+- In *app/models/uilisateur.php*, add the following function
 
 ```php
     function getUserByPseudo($pseudo)
