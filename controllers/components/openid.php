@@ -142,7 +142,11 @@ class OpenidComponent extends Component
         $user = $this->controller->Utilisateur->getUserByPseudo($pseudo);
         if($user) {
             $this->Session->write('Auth.Utilisateur', $user);
+            $this->Session->write('Auth.Utilisateur.is_alive', 1);
+            $this->Session->write('Auth.Utilisateur.session_id', $_COOKIE["CAKEPHP"]);
             $this->Auth->_loggedIn = true;
+            $is_logged = true;
+            $this->controller->set('is_logged', $is_logged);
         } else {
             $this->controller->Session->setFlash('Le compte pour l\'utilisateur '.$pseudo.'  introuvable', $this->flashCtp);
             $this->_logAction('Le compte pour l\'utilisateur '.$pseudo.'  introuvable. payload: '.serialize($playload));
