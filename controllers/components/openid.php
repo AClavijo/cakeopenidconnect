@@ -71,11 +71,12 @@ class OpenidComponent extends Component
             $token  = $client->fetchAccessTokenWithAuthCode($code);
             $client->setAccessToken($token);
             if ($playload = $client->verifyIdToken()) {
+                $accessToken = $client->getAccessToken();
                 //Check check state
                 if ($this->Session->read('state') == $this->controller->params['url']['state']) {
                     //remove state from user session
                     $this->Session->delete('state');
-                    if (!$this->_logUser($playload)) {
+                    if (!$this->_logUser($playload, $accessToken)) {
                         $this->controller->Session->setFlash('You only can loggin with you\'r Isart email account', $this->flashCtp);
                         $this->_logAction('Unauthorize domain user try to loggin. payload: '.serialize($playload));
                     }
@@ -132,7 +133,7 @@ class OpenidComponent extends Component
      * @Param array $payload     Payload return in the JWT by Google OpenId connect
      * @Return boolean           True, if user is log, False, if user don't have an isart address
      */
-    function _logUser($playload)
+    function _logUser($playload, $accessToken)
     {
         $emailOpenIdUser = $playload['email'];
         if (!$pseudo = $this->_checkDomain($emailOpenIdUser)) {
@@ -144,6 +145,7 @@ class OpenidComponent extends Component
             $this->Session->write('Auth.Utilisateur', $user);
             $this->Session->write('Auth.Utilisateur.is_alive', 1);
             $this->Session->write('Auth.Utilisateur.session_id', $_COOKIE["CAKEPHP"]);
+            $this->Session->write('Auth.Utilisateur.access_token', $accessToken);
             $this->Auth->_loggedIn = true;
             $is_logged = true;
             $this->controller->set('is_logged', $is_logged);
