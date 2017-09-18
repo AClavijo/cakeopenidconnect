@@ -68,7 +68,8 @@ class OpenidComponent extends Component
         if (isset($this->controller->params['url']['code'])) {
             $code   = $this->controller->params['url']['code'];
             $client = $this->_getGoogleClient();
-            $token  = $client->fetchAccessTokenWithAuthCode($code);
+            $client->authenticate($code);
+            $token  = $client->getAccessToken();
             $client->setAccessToken($token);
             if ($playload = $client->verifyIdToken()) {
                 $accessToken = $client->getAccessToken();
